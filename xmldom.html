@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Flower Shop</h2>
+    <button onclick="loadXML()">Load Flowers Table</button>
+    <table id="flowerTable" border="1" width="100%">
+
+    </table>
+</body>
+
+<script>
+    let xmldom;
+    function loadXML() {
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                xmldom = this.responseXML;
+                showFlowerTable()
+                console.log(xmldom)
+            }
+        };
+        xhttp.open("GET", "new.xml", true);
+        xhttp.send();
+    }
+    function showFlowerTable() {
+        var flowerTable = xmldom.getElementsByTagName("flower");
+        console.log(flowerTable)
+       var flower = document.getElementById("flowerTable");
+       flower.innerHTML += `<tr>
+            <th>Flower</th>
+         <th>Price</th>
+         </tr>`
+         for (let i in flowerTable) {
+            console.log(flowerTable[i])
+            flower.innerHTML += `<tr>
+                <td>${flowerTable[i].getElementsByTagName("name")[0].childNodes[0].nodeValue}</td>
+                <td>${flowerTable[i].getElementsByTagName("price")[0].childNodes[0].nodeValue}</td>
+                
+            </tr>`
+         }}
+</script>
+</html>
